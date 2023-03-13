@@ -4,6 +4,7 @@ import {
   import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
   import Flex from "components/Flex";
   import WidgetWrapper from "components/WidgetWrapper";
+import { BACKEND_URL } from "constants";
   import { useState } from "react";
   
   const PostWidget = ({
@@ -28,7 +29,7 @@ import {
             height="auto"
             alt="post"
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-            src={`http://localhost:3001/assets/${picturePath}`}
+            src={`${BACKEND_URL}/assets/${picturePath}`}
           />
         )}
         <Flex mt="0.25rem">

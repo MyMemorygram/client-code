@@ -15,6 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLogin } from "state";
 import Dropzone from "react-dropzone";
 import Flex from "components/Flex";
+import { BACKEND_URL } from "constants";
 
 const registerSchema = yup.object().shape({
     firstName: yup.string().required("required"),
@@ -64,7 +65,7 @@ const registerSchema = yup.object().shape({
       formData.append("profilePicturePath", values.profilePicture.name);
   
       const savedUserResponse = await fetch(
-        "http://localhost:3001/auth/signup",
+        `${BACKEND_URL}/auth/signup`,
         {
           method: "POST",
           body: formData,
@@ -79,7 +80,7 @@ const registerSchema = yup.object().shape({
     };
   
     const login = async (values, onSubmitProps) => {
-      const loggedInResponse = await fetch("http://localhost:3001/auth/login", {
+      const loggedInResponse = await fetch(`${BACKEND_URL}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(values),

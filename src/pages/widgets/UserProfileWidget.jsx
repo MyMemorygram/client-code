@@ -10,6 +10,7 @@ import {
   import { useSelector } from "react-redux";
   import { useEffect, useState } from "react";
   import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "constants";
   
   const UserProfileWidget = ({ userId, profilePicturePath }) => {
     const [user, setUser] = useState(null);
@@ -21,7 +22,7 @@ import {
     const main = palette.neutral.main;
   
     const getUser = async () => {
-      const response = await fetch(`http://localhost:3001/users/${userId}`, {
+      const response = await fetch(`${BACKEND_URL}/users/${userId}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });

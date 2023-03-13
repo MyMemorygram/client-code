@@ -1,3 +1,4 @@
+import { BACKEND_URL } from "constants";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPosts } from "state";
@@ -9,7 +10,7 @@ const PostsWidget = ({ userId }) => {
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${userId}`, {
+    const response = await fetch(`${BACKEND_URL}/posts/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
