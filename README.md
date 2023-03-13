@@ -1,3 +1,19 @@
+# MyMemorygram Client 
+
+## Install and Run the application
+Install the required packages
+### `npm run build`
+Run the application
+### `npm start`
+
+The frontend is deployed at https://640f6f56b859000bb826dddc--rainbow-quokka-9e30c3.netlify.app
+
+## Connect to the local backend server
+By default the frontend call the backend server deployed at https://mymemorygram-server.onrender.com
+To connect to the backend server running locally, change the BACKEND_URL in /src/constants.js file to point to the localhost address.
+
+====================================================================================================
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
