@@ -56,7 +56,7 @@ const NavigationBar = () => {
             },
           }}
         >
-          Memorygram
+          MyMemorygram
         </Typography>
         {isNonMobileScreens && (
             <Flex backgroudColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">

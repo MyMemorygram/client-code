@@ -23,7 +23,7 @@ const registerSchema = yup.object().shape({
     password: yup.string().required("required"),
     location: yup.string().required("required"),
     bioDescription: yup.string().required("required"),
-    picture: yup.string().required("required"),
+    profilePicture: yup.string().required("required"),
   });
 
   const loginSchema = yup.object().shape({
@@ -37,8 +37,8 @@ const registerSchema = yup.object().shape({
     email: "",
     password: "",
     location: "",
-    occupation: "",
-    picture: "",
+    bioDescription: "",
+    profilePicture: "",
   };
   
   const initialValuesLogin = {
@@ -61,8 +61,7 @@ const registerSchema = yup.object().shape({
       for (let value in values) {
         formData.append(value, values[value]);
       }
-      formData.append("picturePath", values.picture.name);
-      console.log(formData)
+      formData.append("profilePicturePath", values.profilePicture.name);
   
       const savedUserResponse = await fetch(
         "http://localhost:3001/auth/signup",
@@ -163,15 +162,15 @@ const registerSchema = yup.object().shape({
                     sx={{ gridColumn: "span 4" }}
                   />
                   <TextField
-                    label="Occupation"
+                    label="Biodata"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    value={values.occupation}
-                    name="occupation"
+                    value={values.bioDescription}
+                    name="bioDescription"
                     error={
-                      Boolean(touched.occupation) && Boolean(errors.occupation)
+                      Boolean(touched.bioDescription) && Boolean(errors.bioDescription)
                     }
-                    helperText={touched.occupation && errors.occupation}
+                    helperText={touched.bioDescription && errors.bioDescription}
                     sx={{ gridColumn: "span 4" }}
                   />
                   <Box
@@ -184,7 +183,7 @@ const registerSchema = yup.object().shape({
                       acceptedFiles=".jpg,.jpeg,.png"
                       multiple={false}
                       onDrop={(acceptedFiles) =>
-                        setFieldValue("picture", acceptedFiles[0])
+                        setFieldValue("profilePicture", acceptedFiles[0])
                       }
                     >
                       {({ getRootProps, getInputProps }) => (
@@ -195,11 +194,11 @@ const registerSchema = yup.object().shape({
                           sx={{ "&:hover": { cursor: "pointer" } }}
                         >
                           <input {...getInputProps()} />
-                          {!values.picture ? (
-                            <p>Add Picture Here</p>
+                          {!values.profilePicture ? (
+                            <p>Add Profile Picture Here</p>
                           ) : (
                             <Flex>
-                              <Typography>{values.picture.name}</Typography>
+                              <Typography>{values.profilePicture.name}</Typography>
                               <EditOutlinedIcon />
                             </Flex>
                           )}
