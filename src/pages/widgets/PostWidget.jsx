@@ -1,13 +1,13 @@
 import {
-    ChatBubbleOutlineOutlined, Edit, Save
+    Edit, Save, Delete
   } from "@mui/icons-material";
-  import { Box, Divider, IconButton, Typography, useTheme, InputBase } from "@mui/material";
+  import { IconButton, Typography, useTheme, InputBase } from "@mui/material";
   import Flex from "components/Flex";
   import WidgetWrapper from "components/WidgetWrapper";
   import { BACKEND_URL } from "constants";
   import { useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
-  import { setPost, setNewStory } from "state";
+  import { setPost, setPosts, setNewStory } from "state";
   
   const PostWidget = ({
     postId,
@@ -16,7 +16,6 @@ import {
     picturePath,
     comments
   }) => {
-    const [isComments, setIsComments] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
   
     const { palette } = useTheme();
@@ -28,6 +27,7 @@ import {
     const { _id } = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
     const { newStory } = useSelector((state) => state.misc);
+
     const onClickSave = async () => {
       if(newStory !== "") {
       const values = {
@@ -47,8 +47,32 @@ import {
       setIsEdit(!isEdit);
     };
 
+    const onClickDelete = async () => {
+        const response = await fetch(`${BACKEND_URL}/posts/`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+          body: JSON.stringify({'postId' : postId })
+        });
+        const posts = await response.json();
+        dispatch(setPosts({ posts }));
+    };
+
     return (
       <WidgetWrapper m="2rem 0">
+        {!isEdit && 
+        <Flex mt="0.25rem">
+          <Flex gap="1rem" marginLeft="auto">
+              <IconButton onClick={() => setIsEdit(!isEdit)}>
+                <Edit />
+              </IconButton>
+          </Flex>
+          <Flex gap="1rem">
+              <IconButton onClick={onClickDelete}>
+                <Delete />
+              </IconButton>
+          </Flex>
+        </Flex>
+        }
         {isEdit && 
         <Flex gap="1.5rem">
         <InputBase
@@ -65,7 +89,6 @@ import {
           <IconButton onClick={onClickSave}>
             <Save />
           </IconButton>
-          <Typography>Save</Typography>
         </Flex>
       </Flex>
       }
@@ -80,37 +103,6 @@ import {
             style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
             src={`${BACKEND_URL}/assets/${picturePath}`}
           />
-        )}
-        <Flex mt="0.25rem">
-          <Flex gap="1rem">
-            <Flex gap="0.3rem">
-              <IconButton onClick={() => setIsComments(!isComments)}>
-                <ChatBubbleOutlineOutlined />
-              </IconButton>
-              <Typography>{comments.length}</Typography>
-            </Flex>
-          </Flex>
-          <Flex gap="1rem">
-            <Flex gap="0.3rem">
-              <IconButton onClick={() => setIsEdit(!isEdit)}>
-                <Edit />
-              </IconButton>
-              <Typography>Edit</Typography>
-            </Flex>
-          </Flex>
-        </Flex>
-        {isComments && (
-          <Box mt="0.5rem">
-            {comments.map((comment, i) => (
-              <Box key={`${name}-${i}`}>
-                <Divider />
-                <Typography sx={{ color: main, m: "0.5rem 0", pl: "1rem" }}>
-                  {comment}
-                </Typography>
-              </Box>
-            ))}
-            <Divider />
-          </Box>
         )}
       </WidgetWrapper>
     );
