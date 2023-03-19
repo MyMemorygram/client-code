@@ -21,9 +21,10 @@ import {
     Close,
   } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode, setLogout } from "state";
+import { setMode, setLogout, setPosts, setSearchStr } from "state";
 import { useNavigate } from "react-router-dom";
 import Flex from "components/Flex";
+import { BACKEND_URL } from "constants";
 
 
 const NavigationBar = () => {
@@ -42,6 +43,23 @@ const NavigationBar = () => {
 
     const fullName = `${userInfo.firstName} ${userInfo.lastName}`;
 
+    const token = useSelector((state) => state.token);
+    const { _id } = useSelector((state) => state.user);
+    const { searchStr } = useSelector((state) => state.misc);
+
+    const changeSearchStr = (event) => {
+      dispatch(setSearchStr({searchStr: event.target.value}));
+    };
+
+    const getSearchedPosts = async () => {
+      const response = await fetch(`${BACKEND_URL}/posts/${searchStr}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await response.json();
+      dispatch(setPosts({ posts: data }));
+    };
+
     return <Flex padding = "1rem 6%" backgroundColor={alt}>
         <Flex gap="1.75rem">
         <Typography
@@ -59,9 +77,9 @@ const NavigationBar = () => {
           MyMemorygram
         </Typography>
         {isNonMobileScreens && (
-            <Flex backgroudColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
-                <InputBase placeholder="Search..." />
-                <IconButton>
+            <Flex backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
+                <InputBase placeholder="Search..." onChange={ changeSearchStr }/>
+                <IconButton onClick={ getSearchedPosts }>
                     <Search/>
                 </IconButton>
             </Flex>
