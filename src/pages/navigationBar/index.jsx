@@ -45,14 +45,14 @@ const NavigationBar = () => {
 
     const token = useSelector((state) => state.token);
     const { _id } = useSelector((state) => state.user);
-    const searchStr = useSelector((state) => state.searchStr);
+    const { searchStr } = useSelector((state) => state.misc);
 
     const changeSearchStr = (event) => {
       dispatch(setSearchStr({searchStr: event.target.value}));
     };
 
     const getSearchedPosts = async () => {
-      const response = await fetch(`${BACKEND_URL}/posts/${_id}/${searchStr}`, {
+      const response = await fetch(`${BACKEND_URL}/posts/${searchStr}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -77,7 +77,7 @@ const NavigationBar = () => {
           MyMemorygram
         </Typography>
         {isNonMobileScreens && (
-            <Flex backgroudColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
+            <Flex backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
                 <InputBase placeholder="Search..." onChange={ changeSearchStr }/>
                 <IconButton onClick={ getSearchedPosts }>
                     <Search/>

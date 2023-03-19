@@ -5,7 +5,7 @@ const initialState = { // setting up global state as light mode
     user: null,
     token: null,
     posts: [],
-    searchStr: ''
+    misc: {}
 };
 
 export const authSlice = createSlice({
@@ -34,17 +34,23 @@ export const authSlice = createSlice({
       },
       setPost: (state, action) => {
         const updatedPosts = state.posts.map((post) => {
-          if (post._id === action.payload.post._id) return action.payload.post;
+          if (post['_id'] === action.payload.postId)
+          {
+            return action.payload.post[0];
+          }
           return post;
         });
         state.posts = updatedPosts;
       },
+      setNewStory: (state, action) => {
+        state.misc.newStory = action.payload.newStory;
+      },
       setSearchStr: (state, action) => {
-        state.searchStr = action.payload.searchStr;
+        state.misc.searchStr = action.payload.searchStr;
       }
     },
   });
 
-  export const { setMode, setLogin, setLogout, setPosts, setPost, setLoginError, setSearchStr } = authSlice.actions;
+  export const { setMode, setLogin, setLogout, setPosts, setPost, setLoginError, setSearchStr, setNewStory } = authSlice.actions;
 
   export default authSlice.reducer;

@@ -10,7 +10,7 @@ const PostsWidget = ({ userId }) => {
   const token = useSelector((state) => state.token);
 
   const getPosts = async () => {
-    const response = await fetch(`${BACKEND_URL}/posts/${userId}`, {
+    const response = await fetch(`${BACKEND_URL}/posts/`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` }
     });
@@ -26,6 +26,7 @@ const PostsWidget = ({ userId }) => {
     <>
       {posts.map(
         ({
+          _id,
           firstName,
           lastName,
           story,
@@ -37,6 +38,7 @@ const PostsWidget = ({ userId }) => {
             story={story}
             picturePath={imagePath}
             comments={comments}
+            postId={_id}
           />
         )
       )}
