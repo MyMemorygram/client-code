@@ -44,7 +44,6 @@ const NavigationBar = () => {
     const fullName = `${userInfo.firstName} ${userInfo.lastName}`;
 
     const token = useSelector((state) => state.token);
-    const { _id } = useSelector((state) => state.user);
     const { searchStr } = useSelector((state) => state.misc);
 
     const changeSearchStr = (event) => {
