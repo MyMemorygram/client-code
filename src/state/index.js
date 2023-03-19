@@ -5,6 +5,7 @@ const initialState = { // setting up global state as light mode
     user: null,
     token: null,
     posts: [],
+    searchStr: ''
 };
 
 export const authSlice = createSlice({
@@ -19,15 +20,17 @@ export const authSlice = createSlice({
         state.token = action.payload.token;
         state.posts = [];
       },
+      setLoginError: (state, action) => {
+        state.loginError = true;
+      },
       setLogout: (state) => {
         state.user = null;
         state.token = null;
         state.posts = [];
+        state.loginError = false;
       },
       setPosts: (state, action) => {
-        console.log("entered setPosts");
         state.posts = action.payload.posts;
-        console.log(state.posts);
       },
       setPost: (state, action) => {
         const updatedPosts = state.posts.map((post) => {
@@ -36,9 +39,12 @@ export const authSlice = createSlice({
         });
         state.posts = updatedPosts;
       },
+      setSearchStr: (state, action) => {
+        state.searchStr = action.payload.searchStr;
+      }
     },
   });
 
-  export const { setMode, setLogin, setLogout, setPosts, setPost } = authSlice.actions;
+  export const { setMode, setLogin, setLogout, setPosts, setPost, setLoginError, setSearchStr } = authSlice.actions;
 
   export default authSlice.reducer;

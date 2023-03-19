@@ -55,6 +55,7 @@ const registerSchema = yup.object().shape({
     const isNonMobile = useMediaQuery("(min-width:600px)");
     const isLogin = pageType === "login";
     const isRegister = pageType === "register";
+    const isLoginError = pageType === "loginError";
   
     const register = async (values, onSubmitProps) => {
       // this allows us to send form info with image
@@ -87,27 +88,33 @@ const registerSchema = yup.object().shape({
       });
       const loggedIn = await loggedInResponse.json();
       onSubmitProps.resetForm();
-      if (loggedIn) {
-        dispatch(
-          setLogin({
-            user: loggedIn.user,
-            token: loggedIn.token,
-          })
-        );
-        navigate("/home");
+      if (loggedIn.msg)
+      {
+          setPageType("loginError");
+      }
+      else {
+        if (loggedIn) {
+          dispatch(
+            setLogin({
+              user: loggedIn.user,
+              token: loggedIn.token,
+            })
+          );
+          navigate("/home");
+        }
       }
     };
   
     const handleFormSubmit = async (values, onSubmitProps) => {
-      if (isLogin) await login(values, onSubmitProps);
+      if ((isLoginError || isLogin)) await login(values, onSubmitProps);
       if (isRegister) await register(values, onSubmitProps);
     };
   
     return (
       <Formik
         onSubmit={handleFormSubmit}
-        initialValues={isLogin ? initialValuesLogin : initialValuesRegister}
-        validationSchema={isLogin ? loginSchema : registerSchema}
+        initialValues={(isLoginError || isLogin) ? initialValuesLogin : initialValuesRegister}
+        validationSchema={(isLoginError || isLogin) ? loginSchema : registerSchema}
       >
         {({
           values,
@@ -209,7 +216,13 @@ const registerSchema = yup.object().shape({
                   </Box>
                 </>
               )}
-  
+              <Typography
+                fontWeight="bold" fontSize="14px" color="deeppink"
+              >
+                {isLoginError
+                  ? "User doesnot exist"
+                  : ""}
+              </Typography>
               <TextField
                 label="Email"
                 onBlur={handleBlur}
@@ -246,11 +259,11 @@ const registerSchema = yup.object().shape({
                   "&:hover": { color: palette.primary.main },
                 }}
               >
-                {isLogin ? "LOGIN" : "REGISTER"}
+                {(isLoginError || isLogin) ? "LOGIN" : "REGISTER"}
               </Button>
               <Typography
                 onClick={() => {
-                  setPageType(isLogin ? "register" : "login");
+                  setPageType((isLoginError || isLogin) ? "register" : "login");
                   resetForm();
                 }}
                 sx={{
@@ -262,7 +275,7 @@ const registerSchema = yup.object().shape({
                   },
                 }}
               >
-                {isLogin
+                {(isLoginError || isLogin)
                   ? "Don't have an account? Sign Up here."
                   : "Already have an account? Login here."}
               </Typography>
