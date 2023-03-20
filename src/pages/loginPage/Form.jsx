@@ -8,6 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import WarningOutlinedIcon from '@mui/icons-material/WarningOutlined';
 import { Formik } from "formik";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -216,13 +217,15 @@ const registerSchema = yup.object().shape({
                   </Box>
                 </>
               )}
-              <Typography
-                fontWeight="bold" fontSize="14px" color="deeppink"
-              >
-                {isLoginError
-                  ? "User doesnot exist"
-                  : ""}
-              </Typography>
+                {isLoginError && 
+                <Flex gap="1rem">
+
+                  <WarningOutlinedIcon color="deeppink" />
+                  <Typography fontWeight="bold" fontSize="14px" color="deeppink">
+                    "Invalid Credentials"
+                  </Typography>
+                </Flex>
+              }
               <TextField
                 label="Email"
                 onBlur={handleBlur}

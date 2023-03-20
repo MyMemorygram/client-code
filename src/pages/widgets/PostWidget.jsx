@@ -55,6 +55,11 @@ import {
         });
         const posts = await response.json();
         dispatch(setPosts({ posts }));
+
+        await fetch(`${BACKEND_URL}/assets/${picturePath}`, {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" }
+        })
     };
 
     return (
