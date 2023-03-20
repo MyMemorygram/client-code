@@ -1,7 +1,8 @@
 import {
     Edit, Save, Delete
   } from "@mui/icons-material";
-  import { IconButton, Typography, useTheme, InputBase } from "@mui/material";
+  import { IconButton, Typography, useTheme } from "@mui/material";
+  import InputEmoji from "react-input-emoji";
   import Flex from "components/Flex";
   import WidgetWrapper from "components/WidgetWrapper";
   import { BACKEND_URL } from "constants";
@@ -80,7 +81,7 @@ import {
         }
         {isEdit && 
         <Flex gap="1.5rem">
-        <InputBase
+        <InputEmoji
           defaultValue={story}
           sx={{
             width: "100%",
