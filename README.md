@@ -6,7 +6,7 @@ Install the required packages
 Run the application
 ### `npm start`
 
-The frontend is deployed at https://640f6f56b859000bb826dddc--rainbow-quokka-9e30c3.netlify.app
+The frontend is deployed at https://mymemorygram.netlify.app
 
 ## Connect to the local backend server
 By default the frontend call the backend server deployed at https://mymemorygram-server.onrender.com
