@@ -11,12 +11,12 @@ import {
     Box,
     Divider,
     Typography,
-    InputBase,
     useTheme,
     Button,
     IconButton,
     useMediaQuery,
   } from "@mui/material";
+  import InputEmoji from "react-input-emoji";
   import Flex from "components/Flex";
   import Dropzone from "react-dropzone";
   import UserProfileImage from "components/UserProfileImage";
@@ -62,9 +62,9 @@ import {
       <WidgetWrapper>
         <Flex gap="1.5rem">
           <UserProfileImage image={profilePicturePath} />
-          <InputBase
-            placeholder="Post new memorable story..."
-            onChange={(e) => setPost(e.target.value)}
+          <InputEmoji 
+            placeholder="Post new memorable picture and story..."
+            onChange={setPost}
             value={post}
             sx={{
               width: "100%",
@@ -156,7 +156,7 @@ import {
           )}
   
           <Button
-            disabled={!post}
+            disabled={!(post && image)}
             onClick={handlePost}
             sx={{
               color: palette.background.alt,
