@@ -4,7 +4,7 @@ import NavigationBar from "pages/navigationBar";
 import UserProfileWidget from "pages/widgets/UserProfileWidget";
 import MyPostWidget from "pages/widgets/MyPostWidget";
 import PostsWidget from "pages/widgets/PostsWidget";
-import AdvertWidget from "pages/widgets/AdvertWidget";
+import BucketListWidget from "pages/widgets/BucketListWidget";
 
 const ProfilePage = () => {
     const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
@@ -30,12 +30,9 @@ const ProfilePage = () => {
                         <MyPostWidget profilePicturePath={profilePicturePath} />
                         <PostsWidget userId={_id} />
                 </Box>
-                {isNonMobileScreens && (
-                <Box flexBasis="26%">
-                    <AdvertWidget />
-                    <Box m="2rem 0" />
+                <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
+                    <BucketListWidget userId={_id} />
                 </Box>
-                )}
             </Box>
         </Box>
 
