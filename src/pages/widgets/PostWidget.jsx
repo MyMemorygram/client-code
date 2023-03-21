@@ -1,14 +1,13 @@
 import {
     Edit, Save, Delete
   } from "@mui/icons-material";
-  import { IconButton, Typography, useTheme } from "@mui/material";
-  import InputEmoji from "react-input-emoji";
+  import { IconButton, Typography, useTheme, TextField } from "@mui/material";
   import Flex from "components/Flex";
   import WidgetWrapper from "components/WidgetWrapper";
   import { BACKEND_URL } from "constants";
   import { useState } from "react";
   import { useDispatch, useSelector } from "react-redux";
-  import { setPost, setPosts, setNewStory } from "state";
+  import { setPost, setPosts } from "state";
   
   const PostWidget = ({
     postId,
@@ -18,19 +17,14 @@ import {
     comments
   }) => {
     const [isEdit, setIsEdit] = useState(false);
-  
+    const [newStory, setNewStory] = useState(story);
     const { palette } = useTheme();
     const main = palette.neutral.main;
     const dispatch = useDispatch();
-    const onChangeStory = (event) => {
-      dispatch(setNewStory({newStory: event.target.value}));
-    };
     const { _id } = useSelector((state) => state.user);
     const token = useSelector((state) => state.token);
-    const { newStory } = useSelector((state) => state.misc);
 
     const onClickSave = async () => {
-      if(newStory !== "") {
       const values = {
         'userId' : _id,
         'postId' : postId,
@@ -43,8 +37,6 @@ import {
       });
       const posts = await response.json();
       dispatch(setPost({ postId: postId, post: posts }));
-      dispatch(setNewStory({newStory: ""}));
-      }
       setIsEdit(!isEdit);
     };
 
@@ -68,7 +60,7 @@ import {
         {!isEdit && 
         <Flex mt="0.25rem">
           <Flex gap="1rem" marginLeft="auto">
-              <IconButton onClick={() => setIsEdit(!isEdit)}>
+              <IconButton onClick={() => {setIsEdit(!isEdit)}}>
                 <Edit />
               </IconButton>
           </Flex>
@@ -81,15 +73,18 @@ import {
         }
         {isEdit && 
         <Flex gap="1.5rem">
-        <InputEmoji
-          defaultValue={story}
+        <TextField
           sx={{
             width: "100%",
             backgroundColor: palette.neutral.light,
             borderRadius: "2rem",
             padding: "1rem 2rem",
           }}
-          onChange={onChangeStory}
+          onChange={(e) => setNewStory(e.target.value)}
+          value={newStory}
+          defaultValue={newStory}
+          variant="outlined"
+          multiline = {true}
         />
         <Flex gap="0.3rem">
           <IconButton onClick={onClickSave}>

@@ -5,7 +5,7 @@ const initialState = { // setting up global state as light mode
     user: null,
     token: null,
     posts: [],
-    misc: {}
+    bucketlist: []
 };
 
 export const authSlice = createSlice({
@@ -19,9 +19,6 @@ export const authSlice = createSlice({
         state.user = action.payload.user;
         state.token = action.payload.token;
         state.posts = [];
-      },
-      setLoginError: (state, action) => {
-        state.loginError = true;
       },
       setLogout: (state) => {
         state.user = null;
@@ -42,15 +39,22 @@ export const authSlice = createSlice({
         });
         state.posts = updatedPosts;
       },
-      setNewStory: (state, action) => {
-        state.misc.newStory = action.payload.newStory;
+      setBucketlist: (state, action) => {
+        state.bucketlist = action.payload.bucketlist;
       },
-      setSearchStr: (state, action) => {
-        state.misc.searchStr = action.payload.searchStr;
+      setBucketlistItem: (state, action) => {
+        const updatedBucketlist = state.bucketlist.map((item) => {
+          if (item['_id'] === action.payload.itemId)
+          {
+            return action.payload.item;
+          }
+          return item;
+        });
+        state.bucketlist = updatedBucketlist;
       }
     },
   });
 
-  export const { setMode, setLogin, setLogout, setPosts, setPost, setLoginError, setSearchStr, setNewStory } = authSlice.actions;
+  export const { setMode, setLogin, setLogout, setPosts, setPost, setBucketlist, setBucketlistItem } = authSlice.actions;
 
   export default authSlice.reducer;

@@ -21,7 +21,7 @@ import {
     Close,
   } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { setMode, setLogout, setPosts, setSearchStr } from "state";
+import { setMode, setLogout, setPosts } from "state";
 import { useNavigate } from "react-router-dom";
 import Flex from "components/Flex";
 import { BACKEND_URL } from "constants";
@@ -44,14 +44,11 @@ const NavigationBar = () => {
     const fullName = `${userInfo.firstName} ${userInfo.lastName}`;
 
     const token = useSelector((state) => state.token);
-    const { searchStr } = useSelector((state) => state.misc);
 
-    const changeSearchStr = (event) => {
-      dispatch(setSearchStr({searchStr: event.target.value}));
-    };
+    const [searchVal, setSearchVal] = useState("");
 
     const getSearchedPosts = async () => {
-      const response = await fetch(`${BACKEND_URL}/posts/${searchStr}`, {
+      const response = await fetch(`${BACKEND_URL}/posts/${searchVal}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -77,7 +74,7 @@ const NavigationBar = () => {
         </Typography>
         {isNonMobileScreens && (
             <Flex backgroundColor={neutralLight} borderRadius="9px" gap="3rem" padding="0.1rem 1.5rem">
-                <InputBase placeholder="Search..." onChange={ changeSearchStr }/>
+                <InputBase placeholder="Search..." value={searchVal} onChange={(e) => setSearchVal(e.target.value)}/>
                 <IconButton onClick={ getSearchedPosts }>
                     <Search/>
                 </IconButton>
