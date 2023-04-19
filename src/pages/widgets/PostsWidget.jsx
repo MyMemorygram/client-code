@@ -32,6 +32,7 @@ const PostsWidget = ({ userId }) => {
           story,
           imagePath,
           comments,
+          createdAt
         }) => (
           <PostWidget
             name={`${firstName} ${lastName}`}
@@ -39,6 +40,7 @@ const PostsWidget = ({ userId }) => {
             picturePath={imagePath}
             comments={comments}
             postId={_id}
+            createdAt={createdAt}
           />
         )
       )}

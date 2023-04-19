@@ -14,7 +14,8 @@ import {
     name,
     story,
     picturePath,
-    comments
+    comments,
+    createdAt
   }) => {
     const [isEdit, setIsEdit] = useState(false);
     const [newStory, setNewStory] = useState(story);
@@ -73,25 +74,25 @@ import {
         }
         {isEdit && 
         <Flex gap="1.5rem">
-        <TextField
-          sx={{
-            width: "100%",
-            backgroundColor: palette.neutral.light,
-            borderRadius: "2rem",
-            padding: "1rem 2rem",
-          }}
-          onChange={(e) => setNewStory(e.target.value)}
-          value={newStory}
-          defaultValue={newStory}
-          variant="outlined"
-          multiline = {true}
-        />
-        <Flex gap="0.3rem">
-          <IconButton onClick={onClickSave}>
-            <Save />
-          </IconButton>
+          <TextField
+            sx={{
+              width: "100%",
+              backgroundColor: palette.neutral.light,
+              borderRadius: "2rem",
+              padding: "1rem 2rem",
+            }}
+            onChange={(e) => setNewStory(e.target.value)}
+            value={newStory}
+            defaultValue={newStory}
+            variant="outlined"
+            multiline = {true}
+          />
+          <Flex gap="0.3rem">
+            <IconButton onClick={onClickSave}>
+              <Save />
+            </IconButton>
+          </Flex>
         </Flex>
-      </Flex>
       }
         {!isEdit && <Typography color={main} sx={{ mt: "1rem" }}>
           {story}
@@ -105,6 +106,13 @@ import {
             src={`${BACKEND_URL}/assets/${picturePath}`}
           />
         )}
+        <Typography
+                variant="h6"
+                color={palette.neutral.dark}
+                fontWeight="100"
+              >
+          Created on {new Date(createdAt).toLocaleString()}
+        </Typography>
       </WidgetWrapper>
     );
   };
